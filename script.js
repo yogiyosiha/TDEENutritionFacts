@@ -102,7 +102,8 @@ function calculateTDEE() {
     elements.lblCal.innerText = energyDisplay.toLocaleString();
     elements.lblTdee.innerText = tdeeDisplay.toLocaleString() + energySuffix;
 
-    let split = { carb: 0.4, pro: 0.3, minFat: 0.3 }; 
+    // Fixed typo below: minFat changed to fat
+    let split = { carb: 0.4, pro: 0.3, fat: 0.3 }; 
     if (elements.macro.value === 'lowcarb') split = { carb: 0.15, pro: 0.35, fat: 0.5 };
     if (elements.macro.value === 'highprotein') split = { carb: 0.25, pro: 0.45, fat: 0.3 };
     
@@ -138,7 +139,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-kcal').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kcal'; updateEnergyLayout(); });
     document.getElementById('btn-kj').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kJ'; updateEnergyLayout(); });
 
-    document.getElementById('btn-save').addEventListener('click', (e) => {e.preventDefault();localStorage.setItem('tdee_profile', JSON.stringify({ units, gender, energyUnit, age: elements.ageNum.value, weight: elements.weightNum.value, height: elements.heightNum.value, activity: elements.activity.value, targetWeight: elements.targetWeight.value, deadline: elements.deadline.value, macro: elements.macro.value }));
+    document.getElementById('btn-save').addEventListener('click', (e) => {e.preventDefault();localStorage.setItem('tdee_profile', JSON.stringify({ units, gender, energyUnit, age: elements.ageNum.value, weight: elements.weightNum.value, height: elements.heightNum.value, activity: elements.activity.value, targetWeight: elements.targetNum.value, deadline: elements.deadline.value, macro: elements.macro.value }));
 alert('💾 Profile preferences securely saved directly to your device!');
 });
 document.getElementById('btn-reset').addEventListener('click', (e) => { e.preventDefault(); if (confirm('🗑️ Are you sure you want to clear your saved profile data?')) { localStorage.removeItem('tdee_profile'); window.location.reload(); } });
