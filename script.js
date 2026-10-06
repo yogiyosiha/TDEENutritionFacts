@@ -1,162 +1,235 @@
-let units = 'imperial', gender = 'female', energyUnit = 'kcal';
-const elements = {
-    ageSlide: document.getElementById('slide-age'), ageNum: document.getElementById('num-age'),
-    weightSlide: document.getElementById('slide-weight'), weightNum: document.getElementById('num-weight'),
-    heightSlide: document.getElementById('slide-height'), heightNum: document.getElementById('num-height'),
-    targetSlide: document.getElementById('slide-target-weight'), targetNum: document.getElementById('num-target-weight'),
-    activity: document.getElementById('select-activity'), macro: document.getElementById('select-macro'),
-    deadline: document.getElementById('input-date'), warning: document.getElementById('danger-warning'),
-    lblCal: document.getElementById('label-calories'), lblFatG: document.getElementById('label-fat-g'),
-    lblFatPct: document.getElementById('label-fat-pct'), lblCarbG: document.getElementById('label-carb-g'),
-    lblCarbPct: document.getElementById('label-carb-pct'), lblProG: document.getElementById('label-protein-g'),
-    lblProPct: document.getElementById('label-protein-pct'), lblTdee: document.getElementById('label-tdee'),
-    lblPace: document.getElementById('label-pace'), lblFiberG: document.getElementById('label-fiber-g'),
-    lblSugarG: document.getElementById('label-sugar-g'), lblAddedSugarG: document.getElementById('label-added-sugar-g'),
-    lblSatFatG: document.getElementById('label-satfat-g'), lblCholMg: document.getElementById('label-chol-mg'),
-    lblSodiumMg: document.getElementById('label-sodium-mg')
+// Array containing exactly 101 sequential cosmic destinations away from Earth
+const completeCosmicMap = [
+    { name: "Earth", icon: "🌍", distance: "Starting Point", type: "major" },
+    { name: "Moon Orbit", icon: "⭐", distance: "384,400 km", type: "mini" },
+    { name: "Venus", icon: "🪐", distance: "39.79 Million km", type: "major" },
+    { name: "Mars", icon: "🔴", distance: "55.65 Million km", type: "major" },
+    { name: "Mercury", icon: "🪨", distance: "82.5 Million km", type: "major" },
+    { name: "Sun's Heliosphere", icon: "⭐", distance: "149.6 Million km", type: "mini" },
+    { name: "Asteroid Belt", icon: "⭐", distance: "400 Million km", type: "mini" },
+    { name: "Jupiter", icon: "🟠", distance: "591.97 Million km", type: "major" },
+    { name: "Saturn", icon: "🪐", distance: "1,204.28 Million km", type: "major" },
+    { name: "Uranus", icon: "🔷", distance: "2,586.88 Million km", type: "major" },
+    { name: "Neptune", icon: "🔵", distance: "4,311.02 Million km", type: "major" },
+    { name: "Kuiper Belt", icon: "⭐", distance: "50 AU", type: "mini" },
+    { name: "Oort Cloud Edge", icon: "⭐", distance: "1,000 AU", type: "mini" },
+    { name: "Voyager 1 Limit", icon: "⭐", distance: "162 AU", type: "mini" },
+    { name: "Interstellar Space", icon: "⭐", distance: "0.03 Light Years", type: "mini" },
+    { name: "Proxima Centauri", icon: "✨", distance: "4.24 Light Years", type: "major" },
+    { name: "Alpha Centauri A", icon: "⭐", distance: "4.34 Light Years", type: "mini" },
+    { name: "Alpha Centauri B", icon: "⭐", distance: "4.37 Light Years", type: "mini" },
+    { name: "Barnard's Star", icon: "⭐", distance: "5.96 Light Years", type: "mini" },
+    { name: "Luhman 16A", icon: "⭐", distance: "6.51 Light Years", type: "mini" },
+    { name: "Luhman 16B", icon: "⭐", distance: "6.52 Light Years", type: "mini" },
+    { name: "WISE 0855-0714", icon: "⭐", distance: "7.26 Light Years", type: "mini" },
+    { name: "Wolf 359", icon: "⭐", distance: "7.78 Light Years", type: "mini" },
+    { name: "Lalande 21185", icon: "⭐", distance: "8.29 Light Years", type: "mini" },
+    { name: "Sirius A (Dog Star)", icon: "🌟", distance: "8.60 Light Years", type: "major" },
+    { name: "Sirius B", icon: "⭐", distance: "8.66 Light Years", type: "mini" },
+    { name: "Luyten 726-8 A", icon: "⭐", distance: "8.73 Light Years", type: "mini" },
+    { name: "Luyten 726-8 B", icon: "⭐", distance: "8.75 Light Years", type: "mini" },
+    { name: "Ross 154", icon: "⭐", distance: "9.68 Light Years", type: "mini" },
+    { name: "Ross 248", icon: "⭐", distance: "10.32 Light Years", type: "mini" },
+    { name: "Epsilon Eridani", icon: "🪐", distance: "10.50 Light Years", type: "major" },
+    { name: "Lacaille 9352", icon: "⭐", distance: "10.74 Light Years", type: "mini" },
+    { name: "Ross 128", icon: "⭐", distance: "11.03 Light Years", type: "mini" },
+    { name: "Luyten 789-6", icon: "⭐", distance: "11.12 Light Years", type: "mini" },
+    { name: "Groombridge 34 A", icon: "⭐", distance: "11.62 Light Years", type: "mini" },
+    { name: "Groombridge 34 B", icon: "⭐", distance: "11.64 Light Years", type: "mini" },
+    { name: "Epsilon Indi A", icon: "⭐", distance: "11.82 Light Years", type: "mini" },
+    { name: "Tau Ceti", icon: "⭐", distance: "11.88 Light Years", type: "mini" },
+    { name: "Procyon A", icon: "🌟", distance: "11.41 Light Years", type: "major" },
+    { name: "Procyon B", icon: "⭐", distance: "11.46 Light Years", type: "mini" },
+    { name: "DX Cancri", icon: "⭐", distance: "11.82 Light Years", type: "mini" },
+    { name: "YZ Ceti", icon: "⭐", distance: "12.11 Light Years", type: "mini" },
+    { name: "Luyten's Star", icon: "⭐", distance: "12.20 Light Years", type: "mini" },
+    { name: "Kapteyn's Star", icon: "⭐", distance: "12.76 Light Years", type: "mini" },
+    { name: "Lacaille 8760", icon: "⭐", distance: "12.87 Light Years", type: "mini" },
+    { name: "Kruger 60 A", icon: "⭐", distance: "13.14 Light Years", type: "mini" },
+    { name: "Kruger 60 B", icon: "⭐", distance: "13.19 Light Years", type: "mini" },
+    { name: "Ross 614 A", icon: "⭐", distance: "13.34 Light Years", type: "mini" },
+    { name: "Gliese 1", icon: "⭐", distance: "14.22 Light Years", type: "mini" },
+    { name: "Wolf 424 A", icon: "⭐", distance: "14.31 Light Years", type: "mini" },
+    { name: "Gliese 687", icon: "⭐", distance: "14.77 Light Years", type: "mini" },
+    { name: "Gliese 674", icon: "⭐", distance: "14.80 Light Years", type: "mini" },
+    { name: "Gliese 876", icon: "⭐", distance: "15.24 Light Years", type: "mini" },
+    { name: "Altair", icon: "🌟", distance: "16.73 Light Years", type: "major" },
+    { name: "Gliese 581", icon: "⭐", distance: "20.33 Light Years", type: "mini" },
+    { name: "Fomalhaut", icon: "⭐", distance: "25.13 Light Years", type: "mini" },
+    { name: "Vega", icon: "🌟", distance: "25.04 Light Years", type: "major" },
+    { name: "Pollux", icon: "⭐", distance: "33.78 Light Years", type: "mini" },
+    { name: "Arcturus", icon: "🌟", distance: "36.66 Light Years", type: "major" },
+    { name: "Capella", icon: "⭐", distance: "42.79 Light Years", type: "mini" },
+    { name: "Aldebaran", icon: "⭐", distance: "65.23 Light Years", type: "mini" },
+    { name: "Regulus", icon: "⭐", distance: "79.31 Light Years", type: "mini" },
+    { name: "Algol", icon: "⭐", distance: "92.81 Light Years", type: "mini" },
+    { name: "Castor", icon: "⭐", distance: "51.56 Light Years", type: "mini" },
+    { name: "Mizar", icon: "⭐", distance: "82.89 Light Years", type: "mini" },
+    { name: "Alcor", icon: "⭐", distance: "81.65 Light Years", type: "mini" },
+    { name: "Polaris (North Star)", icon: "👑", distance: "433 Light Years", type: "major" },
+    { name: "Betelgeuse", icon: "🌟", distance: "642.5 Light Years", type: "major" },
+    { name: "Rigel", icon: "⭐", distance: "860 Light Years", type: "mini" },
+    { name: "Antares", icon: "⭐", distance: "550 Light Years", type: "mini" },
+    { name: "Deneb", icon: "⭐", distance: "2,615 Light Years", type: "mini" },
+    { name: "Canopus", icon: "⭐", distance: "310 Light Years", type: "mini" },
+    { name: "Pleiades Cluster", icon: "✨", distance: "444 Light Years", type: "major" },
+    { name: "Orion Nebula", icon: "⭐", distance: "1,344 Light Years", type: "mini" },
+    { name: "Crab Nebula", icon: "⭐", distance: "6,523 Light Years", type: "mini" },
+    { name: "Kepler-22 System", icon: "🪐", distance: "635 Light Years", type: "mini" },
+    { name: "TRAPPIST-1 System", icon: "⭐", distance: "40.66 Light Years", type: "mini" },
+    { name: "Pistol Star", icon: "⭐", distance: "25,000 Light Years", type: "mini" },
+    { name: "Sagittarius A*", icon: "🕳️", distance: "26,670 Light Years", type: "major" },
+    { name: "Omega Centauri", icon: "⭐", distance: "15,800 Light Years", type: "mini" },
+    { name: "Large Magellanic Cloud", icon: "🌌", distance: "163,000 Light Years", type: "major" },
+    { name: "Small Magellanic Cloud", icon: "⭐", distance: "200,000 Light Years", type: "mini" },
+    { name: "Andromeda Galaxy", icon: "🌌", distance: "2.53 Million Light Years", type: "major" },
+    { name: "Triangulum Galaxy", icon: "⭐", distance: "3.20 Million Light Years", type: "mini" },
+    { name: "Whirlpool Galaxy", icon: "⭐", distance: "23 Million Light Years", type: "mini" },
+    { name: "Sombrero Galaxy", icon: "⭐", distance: "28 Million Light Years", type: "mini" },
+    { name: "Virgo Cluster", icon: "⭐", distance: "53.8 Million Light Years", type: "mini" },
+    { name: "3C 273 (Quasar)", icon: "⭐", distance: "2.4 Billion Light Years", type: "mini" },
+    { name: "Cosmic Web Wall", icon: "⭐", distance: "5 Billion Light Years", type: "mini" },
+    { name: "GN-z11 Galaxy", icon: "⭐", distance: "13.4 Billion Light Years", type: "mini" },
+    { name: "Deep Space Field", icon: "⭐", distance: "15 Billion Light Years", type: "mini" },
+    { name: "Cosmic Background Core", icon: "⭐", distance: "20 Billion Light Years", type: "mini" },
+    { name: "Edge of Dark Matter", icon: "⭐", distance: "22 Billion Light Years", type: "mini" },
+    { name: "Primordial Gas Clouds", icon: "⭐", distance: "24 Billion Light Years", type: "mini" },
+    { name: "Ancient Redshift Rim", icon: "⭐", distance: "25 Billion Light Years", type: "mini" },
+    { name: "First Light Horizon", icon: "⭐", distance: "26 Billion Light Years", type: "mini" },
+    { name: "Observable Limit Hub", icon: "⭐", distance: "27 Billion Light Years", type: "mini" },
+    { name: "Cosmic Dawn Void", icon: "⭐", distance: "27.5 Billion Light Years", type: "mini" },
+    { name: "Hyper-Deep Interstellar", icon: "⭐", distance: "27.8 Billion Light Years", type: "mini" },
+    { name: "Earendel Horizon", icon: "⭐", distance: "27.9 Billion Light Years", type: "mini" },
+    { name: "Earendel", icon: "🏆", distance: "28 Billion Light Years (Goal!)", type: "major" }
+];
+
+window.onload = function() {
+    buildCosmicMap();
+    loadSavedData();
 };
 
-function syncInputs(slider, number, updateFn) {
-    if (!slider || !number) return;
-    slider.addEventListener('input', (e) => { number.value = e.target.value; updateFn(); });
-    number.addEventListener('input', (e) => { slider.value = e.target.value; updateFn(); });
-}
+function saveToLocalStorage() {
+    const savedData = {
+        startWeight: document.getElementById('startWeight').value,
+        currentWeight: document.getElementById('currentWeight').value,
+        goalWeight: document.getElementById('goalWeight').value
+    };
 
-function convertValuesToImperial() {
-    elements.weightNum.value = Math.round(parseFloat(elements.weightNum.value) / 0.453592);
-    elements.targetNum.value = Math.round(parseFloat(elements.targetNum.value) / 0.453592);
-    elements.heightNum.value = Math.round(parseFloat(elements.heightNum.value) / 2.54);
-}
-
-function convertValuesToMetric() {
-    elements.weightNum.value = (Math.round(parseFloat(elements.weightNum.value) * 0.453592 * 10) / 10).toFixed(1);
-    elements.targetNum.value = (Math.round(parseFloat(elements.targetNum.value) * 0.453592 * 10) / 10).toFixed(1);
-    elements.heightNum.value = (Math.round(parseFloat(elements.heightNum.value) * 2.54 * 10) / 10).toFixed(1);
-}
-
-function updateGenderLayout() {
-    document.getElementById('btn-female').classList.toggle('active', gender === 'female');
-    document.getElementById('btn-male').classList.toggle('active', gender === 'male');
-    calculateTDEE();
-}
-
-function updateUnitLayout() {
-    const isImp = units === 'imperial';
-    document.getElementById('btn-imperial').classList.toggle('active', isImp);
-    document.getElementById('btn-metric').classList.toggle('active', !isImp);
-    document.getElementById('lbl-weight').innerText = isImp ? "Current Weight (lbs):" : "Current Weight (kg):";
-    document.getElementById('lbl-height').innerText = isImp ? "Height (inches):" : "Height (cm):";
-    document.getElementById('lbl-target-weight').innerText = isImp ? "Target Weight (lbs):" : "Target Weight (kg):";
-    if(isImp) {
-        updateSliders(elements.weightSlide, elements.weightNum, 0, 600, elements.weightNum.value, 1);
-        updateSliders(elements.heightSlide, elements.heightNum, 0, 100, elements.heightNum.value, 1);
-        updateSliders(elements.targetSlide, elements.targetNum, 0, 600, elements.targetNum.value, 1);
-    } else {
-        updateSliders(elements.weightSlide, elements.weightNum, 0, 272, elements.weightNum.value, 0.1);
-        updateSliders(elements.heightSlide, elements.heightNum, 0, 254, elements.heightNum.value, 0.1);
-        updateSliders(elements.targetSlide, elements.targetNum, 0, 272, elements.targetNum.value, 0.1);
+    try {
+        localStorage.setItem('cosmicWeightTracker', JSON.stringify(savedData));
+    } catch (error) {
+        document.getElementById('stats').innerText =
+            'Unable to save your data in this browser. Check your storage settings.';
     }
-    calculateTDEE();
 }
 
-function updateSliders(slide, num, min, max, val, step) {
-    if (!slide || !num) return;
-    slide.min = min; slide.max = max; slide.step = step; slide.value = val;
-    num.min = min; num.max = max; num.step = step; num.value = val;
+function loadSavedData() {
+    try {
+        const savedData = localStorage.getItem('cosmicWeightTracker');
+        if (!savedData) return;
+
+        const weights = JSON.parse(savedData);
+        if (
+            !weights ||
+            typeof weights.startWeight !== 'string' ||
+            typeof weights.currentWeight !== 'string' ||
+            typeof weights.goalWeight !== 'string'
+        ) {
+            throw new Error('Saved weight data has an invalid format.');
+        }
+
+        document.getElementById('startWeight').value = weights.startWeight;
+        document.getElementById('currentWeight').value = weights.currentWeight;
+        document.getElementById('goalWeight').value = weights.goalWeight;
+
+        if (weights.startWeight && weights.currentWeight && weights.goalWeight) {
+            updateJourney();
+        }
+    } catch (error) {
+        document.getElementById('stats').innerText =
+            'Unable to load saved data. Please check your browser storage settings.';
+    }
 }
 
-function updateEnergyLayout() {
-    const isKcal = energyUnit === 'kcal';
-    document.getElementById('btn-kcal').classList.toggle('active', isKcal);
-    document.getElementById('btn-kj').classList.toggle('active', !isKcal);
-    document.getElementById('label-energy-title').innerText = isKcal ? "Calories" : "Kilojoules";
-    document.getElementById('label-tdee-title').innerText = isKcal ? "Baseline Maintenance TDEE:" : "Baseline Maintenance TDEE (kJ):";
-    calculateTDEE();
+function buildCosmicMap() {
+    const map = document.getElementById('spaceMap');
+    const ship = document.getElementById('spaceship');
+    map.innerHTML = '';
+    map.appendChild(ship);
+
+    // Loop from 0 UP TO 100 so Earth is at the top, Earendel at the bottom
+    for (let percent = 0; percent <= 100; percent++) {
+        const dest = completeCosmicMap[percent];
+        const element = document.createElement('div');
+        
+        if (dest.type === "major") {
+            element.className = `milestone major-milestone m-${percent}`;
+            element.id = `pct-${percent}`;
+            element.innerHTML = `
+                <span class="icon">${dest.icon}</span>
+                <div class="info">
+                    <span class="name">${dest.name} (${percent}%)</span>
+                    <span class="distance">${dest.distance}</span>
+                </div>
+            `;
+        } else {
+            element.className = `milestone mini-star m-${percent}`;
+            element.id = `pct-${percent}`; 
+            element.innerHTML = `
+                <span class="icon-mini">⭐</span> 
+                <div class="info"> 
+                    <span class="name-mini">${dest.name} (${percent}%)</span> 
+                    <span class="distance-mini">${dest.distance}</span> 
+                </div>
+            `;
+        }
+        map.appendChild(element);
+    }
+    document.getElementById('pct-0').classList.add('reached');
 }
 
-function calculateTDEE() {
-    let weight = parseFloat(elements.weightNum.value), height = parseFloat(elements.heightNum.value);
-    const age = parseFloat(elements.ageNum.value), activityMultiplier = parseFloat(elements.activity.value), targetWeight = parseFloat(elements.targetNum.value);
-    if (isNaN(weight) || isNaN(height) || isNaN(age)) return;
-    let weightKg = units === 'imperial' ? weight * 0.453592 : weight, heightCm = units === 'imperial' ? height * 2.54 : height, targetWeightKg = units === 'imperial' ? targetWeight * 0.453592 : targetWeight;
-    let bmr = (10 * weightKg) + (6.25 * heightCm) - (5 * age);
-    bmr = gender === 'male' ? bmr + 5 : bmr - 161;
-    const tdeeKcal = Math.round(bmr * activityMultiplier);
-    
-    const today = new Date(), targetDate = new Date(elements.deadline.value), diffTime = targetDate - today, diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    let finalCaloriesKcal = tdeeKcal, paceText = "0";
-    if (diffDays > 0 && weightKg !== targetWeightKg) {
-        const totalWeightDiffKg = weightKg - targetWeightKg, totalCalorieDeficitNeeded = totalWeightDiffKg * 7700, dailyDeficit = totalCalorieDeficitNeeded / diffDays;
-        finalCaloriesKcal = Math.round(tdeeKcal - dailyDeficit);
-        const weeklyPaceKg = (totalWeightDiffKg / diffDays) * 7;
-        paceText = units === 'imperial' ? `${(weeklyPaceKg / 0.453592).toFixed(1)} lbs / week` : `${weeklyPaceKg.toFixed(1)} kg / week`;
-    } else { paceText = units === 'imperial' ? "0 lbs / week" : "0 kg / week"; }
-    elements.lblPace.innerText = paceText;
-    
-    if (finalCaloriesKcal < (gender === 'female' ? 1200 : 1500)) { elements.warning.classList.remove('hidden'); } else { elements.warning.classList.add('hidden'); }
-    
-    const energyDisplay = energyUnit === 'kcal' ? finalCaloriesKcal : Math.round(finalCaloriesKcal * 4.184);
-    const tdeeDisplay = energyUnit === 'kcal' ? tdeeKcal : Math.round(tdeeKcal * 4.184);
-    const energySuffix = energyUnit === 'kcal' ? ' kcal' : ' kJ';
+function updateJourney() {
+    const start = parseFloat(document.getElementById('startWeight').value);
+    const current = parseFloat(document.getElementById('currentWeight').value);
+    const goal = parseFloat(document.getElementById('goalWeight').value);
+    const statsBox = document.getElementById('stats');
+    const ship = document.getElementById('spaceship');
 
-    elements.lblCal.innerText = energyDisplay.toLocaleString();
-    elements.lblTdee.innerText = tdeeDisplay.toLocaleString() + energySuffix;
+    if (!start || !current || !goal) {
+        statsBox.innerText = "Please fill out all fields to calculate trajectory.";
+        return;
+    }
+    if (current > start || goal >= start) {
+        statsBox.innerText = "Error: Current and goal weights must be less than your starting weight.";
+        return;
+    }
 
-    // Fixed typo below: minFat changed to fat
-    let split = { carb: 0.4, pro: 0.3, fat: 0.3 }; 
-    if (elements.macro.value === 'lowcarb') split = { carb: 0.15, pro: 0.35, fat: 0.5 };
-    if (elements.macro.value === 'highprotein') split = { carb: 0.25, pro: 0.45, fat: 0.3 };
+    const totalWeightToLose = start - goal;
+    const currentWeightLost = start - current;
     
-    const fatG = Math.round((finalCaloriesKcal * split.fat) / 9), carbG = Math.round((finalCaloriesKcal * split.carb) / 4), proG = Math.round((finalCaloriesKcal * split.pro) / 4);
-    const fiberG = Math.round((finalCaloriesKcal / 1000) * 14), sugarG = Math.round((finalCaloriesKcal * 0.10) / 4), addedSugarG = gender === 'female' ? 25 : 36;
-    const satFatG = Math.round((finalCaloriesKcal * 0.10) / 9);
+    let journeyProgress = (currentWeightLost / totalWeightToLose) * 100;
+    if (journeyProgress < 0) journeyProgress = 0;
+    if (journeyProgress > 100) journeyProgress = 100;
 
-    elements.lblFatG.innerText = `${fatG}g`; elements.lblCarbG.innerText = `${carbG}g`; elements.lblProG.innerText = `${proG}g`; elements.lblFiberG.innerText = `${fiberG}g`;
-    elements.lblSugarG.innerText = `${sugarG}g`; elements.lblAddedSugarG.innerText = `${addedSugarG}g`; elements.lblSatFatG.innerText = `${satFatG}g`;
-    elements.lblCholMg.innerText = `300mg`; elements.lblSodiumMg.innerText = `2,300mg`;
-    elements.lblFatPct.innerText = `${Math.round(split.fat * 100)}%`; elements.lblCarbPct.innerText = `${Math.round(split.carb * 100)}%`; elements.lblProPct.innerText = `${Math.round(split.pro * 100)}%`;
+    // To this:
+statsBox.innerHTML = `🚀 You have dropped ${currentWeightLost.toFixed(1)} lbs/kg. Your warp drive is at <strong>${journeyProgress.toFixed(1)}%</strong> capacity!`;
+    
+    const currentPercentFloor = Math.floor(journeyProgress);
+
+    for (let i = 0; i <= 100; i++) {
+        const item = document.getElementById('pct-' + i);
+        if (item) {
+            if (i <= currentPercentFloor) {
+                item.classList.add('reached');
+            } else {
+                item.classList.remove('reached');
+            }
+        }
+    }
+
+    const targetElement = document.getElementById('pct-' + currentPercentFloor);
+    if (targetElement) {
+        const targetTop = targetElement.offsetTop + (targetElement.offsetHeight / 2);
+        ship.style.top = targetTop + 'px';
+    }
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-    const defaultDate = new Date(); 
-    defaultDate.setDate(defaultDate.getDate() + 90); 
-    elements.deadline.value = defaultDate.toISOString().substring(0, 10);
-
-    syncInputs(elements.ageSlide, elements.ageNum, calculateTDEE); 
-    syncInputs(elements.weightSlide, elements.weightNum, calculateTDEE);
-    syncInputs(elements.heightSlide, elements.heightNum, calculateTDEE); 
-    syncInputs(elements.targetSlide, elements.targetNum, calculateTDEE);
-    
-    elements.activity.addEventListener('change', calculateTDEE); 
-    elements.macro.addEventListener('change', calculateTDEE); 
-    elements.deadline.addEventListener('change', calculateTDEE);
-    
-    document.getElementById('btn-imperial').addEventListener('click', function(e) { e.preventDefault(); if (units === 'metric') { convertValuesToImperial(); units = 'imperial'; updateUnitLayout(); } });
-    document.getElementById('btn-metric').addEventListener('click', function(e) { e.preventDefault(); if (units === 'imperial') { convertValuesToMetric(); units = 'metric'; updateUnitLayout(); } });
-    document.getElementById('btn-female').addEventListener('click', function(e) { e.preventDefault(); gender = 'female'; updateGenderLayout(); });
-    document.getElementById('btn-male').addEventListener('click', function(e) { e.preventDefault(); gender = 'male'; updateGenderLayout(); });
-    
-    document.getElementById('btn-kcal').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kcal'; updateEnergyLayout(); });
-    document.getElementById('btn-kj').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kJ'; updateEnergyLayout(); });
-
-    document.getElementById('btn-save').addEventListener('click', (e) => {e.preventDefault();localStorage.setItem('tdee_profile', JSON.stringify({ units, gender, energyUnit, age: elements.ageNum.value, weight: elements.weightNum.value, height: elements.heightNum.value, activity: elements.activity.value, targetWeight: elements.targetNum.value, deadline: elements.deadline.value, macro: elements.macro.value }));
-alert('💾 Profile preferences securely saved directly to your device!');
-});
-document.getElementById('btn-reset').addEventListener('click', (e) => { e.preventDefault(); if (confirm('🗑️ Are you sure you want to clear your saved profile data?')) { localStorage.removeItem('tdee_profile'); window.location.reload(); } });
-const saved = localStorage.getItem('tdee_profile');
-if (saved) {
-const data = JSON.parse(saved); units = data.units; gender = data.gender; energyUnit = data.energyUnit || 'kcal';
-document.getElementById('btn-female').classList.toggle('active', gender === 'female'); document.getElementById('btn-male').classList.toggle('active', gender === 'male');
-updateUnitLayout();
-elements.ageSlide.value = data.age; elements.ageNum.value = data.age;
-elements.weightSlide.value = data.weight; elements.weightNum.value = data.weight;
-elements.heightSlide.value = data.height; elements.heightNum.value = data.height;
-elements.activity.value = data.activity; elements.targetSlide.value = data.targetWeight; elements.targetNum.value = data.targetWeight;
-elements.deadline.value = data.deadline; elements.macro.value = data.macro;
-updateEnergyLayout();
-} else {
-elements.ageSlide.value = 30; elements.ageNum.value = 30; elements.weightNum.value = 165; elements.heightNum.value = 66; elements.targetNum.value = 160;
-updateUnitLayout();
-updateEnergyLayout();
-}
-});
