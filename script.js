@@ -48,13 +48,13 @@ function updateUnitLayout() {
     document.getElementById('lbl-height').innerText = isImp ? "Height (inches):" : "Height (cm):";
     document.getElementById('lbl-target-weight').innerText = isImp ? "Target Weight (lbs):" : "Target Weight (kg):";
     if(isImp) {
-        updateSliders(elements.weightSlide, elements.weightNum, 80, 400, elements.weightNum.value, 1);
-        updateSliders(elements.heightSlide, elements.heightNum, 48, 84, elements.heightNum.value, 1);
-        updateSliders(elements.targetSlide, elements.targetNum, 80, 400, elements.targetNum.value, 1);
+        updateSliders(elements.weightSlide, elements.weightNum, 0, 600, elements.weightNum.value, 1);
+        updateSliders(elements.heightSlide, elements.heightNum, 0, 100, elements.heightNum.value, 1);
+        updateSliders(elements.targetSlide, elements.targetNum, 0, 600, elements.targetNum.value, 1);
     } else {
-        updateSliders(elements.weightSlide, elements.weightNum, 40, 200, elements.weightNum.value, 0.1);
-        updateSliders(elements.heightSlide, elements.heightNum, 120, 220, elements.heightNum.value, 0.1);
-        updateSliders(elements.targetSlide, elements.targetNum, 40, 200, elements.targetNum.value, 0.1);
+        updateSliders(elements.weightSlide, elements.weightNum, 0, 272, elements.weightNum.value, 0.1);
+        updateSliders(elements.heightSlide, elements.heightNum, 0, 254, elements.heightNum.value, 0.1);
+        updateSliders(elements.targetSlide, elements.targetNum, 0, 272, elements.targetNum.value, 0.1);
     }
     calculateTDEE();
 }
@@ -102,7 +102,7 @@ function calculateTDEE() {
     elements.lblCal.innerText = energyDisplay.toLocaleString();
     elements.lblTdee.innerText = tdeeDisplay.toLocaleString() + energySuffix;
 
-    let split = { carb: 0.4, pro: 0.3, fat: 0.3 }; 
+    let split = { carb: 0.4, pro: 0.3, minFat: 0.3 }; 
     if (elements.macro.value === 'lowcarb') split = { carb: 0.15, pro: 0.35, fat: 0.5 };
     if (elements.macro.value === 'highprotein') split = { carb: 0.25, pro: 0.45, fat: 0.3 };
     
@@ -138,8 +138,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btn-kcal').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kcal'; updateEnergyLayout(); });
     document.getElementById('btn-kj').addEventListener('click', function(e) { e.preventDefault(); energyUnit = 'kJ'; updateEnergyLayout(); });
 
-    document.getElementById('btn-save').addEventListener('click', (e) => {
-        e.preventDefault();localStorage.setItem('tdee_profile', JSON.stringify({ units, gender, energyUnit, age: elements.ageNum.value, weight: elements.weightNum.value, height: elements.heightNum.value, activity: elements.activity.value, targetWeight: elements.targetNum.value, deadline: elements.deadline.value, macro: elements.macro.value }));
+    document.getElementById('btn-save').addEventListener('click', (e) => {e.preventDefault();localStorage.setItem('tdee_profile', JSON.stringify({ units, gender, energyUnit, age: elements.ageNum.value, weight: elements.weightNum.value, height: elements.heightNum.value, activity: elements.activity.value, targetWeight: elements.targetWeight.value, deadline: elements.deadline.value, macro: elements.macro.value }));
 alert('💾 Profile preferences securely saved directly to your device!');
 });
 document.getElementById('btn-reset').addEventListener('click', (e) => { e.preventDefault(); if (confirm('🗑️ Are you sure you want to clear your saved profile data?')) { localStorage.removeItem('tdee_profile'); window.location.reload(); } });
