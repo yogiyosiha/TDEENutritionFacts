@@ -8,10 +8,12 @@
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
 <body>
+    <!-- Simplified Site Header -->
     <header class="site-header">
         <h1>Your Nutrition Facts: TDEE Calculator</h1>
     </header>
 
+    <!-- Core Interface Layout Container -->
     <div class="container">
         <!-- User Input Metrics Control Panel -->
         <div class="panel inputs-panel">
@@ -22,6 +24,14 @@
                 <div class="toggle-container">
                     <button type="button" id="btn-imperial" class="active">Imperial</button>
                     <button type="button" id="btn-metric">Metric</button>
+                </div>
+            </div>
+
+            <div class="input-group row">
+                <label>Energy Units:</label>
+                <div class="toggle-container">
+                    <button type="button" id="btn-kcal" class="active">Calories (kcal)</button>
+                    <button type="button" id="btn-kj">Kilojoules (kJ)</button>
                 </div>
             </div>
 
@@ -60,10 +70,10 @@
             <div class="input-group">
                 <label>Activity Level:</label>
                 <select id="select-activity">
-                    <option value="1.2">Sedentary (Little to No Exercise, &lt; 5,000 steps/day)</option>
+                    <option value="1.2">Sedentary (Desk Job, &lt; 5,000 steps/day)</option>
                     <option value="1.375">Lightly Active (1-3 days exercise/wk, 5,000-7,500 steps)</option>
-                    <option value="1.55" selected>Moderately Active (3-5 days exercise/wk, 7,500-10,000 steps)</option>
-                    <option value="1.725">Very Active (6-7 days exercise/wk, 10,000+ steps)</option>
+                    <option value="1.55" selected>Moderately Active (3-5 days gym/wk, 7,500-10,000 steps)</option>
+                    <option value="1.725">Very Active (6-7 days heavy training/wk, 10,000+ steps)</option>
                 </select>
             </div>
 
@@ -92,6 +102,7 @@
                 </select>
             </div>
 
+            <!-- Control Buttons -->
             <button type="button" id="btn-save" class="action-btn">💾 Save Profile Data</button>
             <button type="button" id="btn-reset" class="action-btn reset-btn">🗑️ Reset Profile</button>
         </div>
@@ -99,7 +110,7 @@
         <!-- Dynamic Label Output Graphic Panel -->
         <div class="panel label-panel">
             <div id="danger-warning" class="warning-banner hidden">
-                ⚠️ WARNING: Daily caloric intake drops below safe guidelines.
+                ⚠️ WARNING: Daily energy intake drops below safe guidelines.
             </div>
 
             <div class="nutrition-label">
@@ -114,7 +125,7 @@
                 <div class="label-row wrap-calories">
                     <div class="bold">
                         <div class="small-text">Amount per serving</div>
-                        <div class="large-text">Calories</div>
+                        <div class="large-text" id="label-energy-title">Calories</div>
                     </div>
                     <div class="huge-text" id="label-calories">2,000</div>
                 </div>
@@ -129,7 +140,6 @@
                     <div class="bold" id="label-fat-pct">30%</div>
                 </div>
                 
-                <!-- NEW FAT SUB-TYPES -->
                 <div class="thin-bar"></div>
                 <div class="label-row paragraph-indent font-small">
                     <div>Saturated Fat <span id="label-satfat-g">22g</span></div>
@@ -141,7 +151,6 @@
                     <div class="bold"></div>
                 </div>
 
-                <!-- NEW CHOLESTEROL & SODIUM ROWS -->
                 <div class="thin-bar"></div>
                 <div class="label-row">
                     <div><span class="bold">Cholesterol</span> <span id="label-chol-mg">300mg</span></div>
@@ -185,7 +194,7 @@
                 <div class="thick-bar"></div>
                 
                 <div class="label-row font-small">
-                    <div>Baseline Maintenance TDEE:</div>
+                    <div id="label-tdee-title">Baseline Maintenance TDEE:</div>
                     <div id="label-tdee">2,500 kcal</div>
                 </div>
                 <div class="thin-bar"></div>
